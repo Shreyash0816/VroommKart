@@ -23,6 +23,8 @@ interface AppContextType {
   updateProduct: (product: Product) => void;
   deleteProduct: (productId: string) => void;
   placeOrder: (orderData: Omit<Order, 'id' | 'date' | 'status'>) => void;
+  importData: (jsonData: string) => boolean;
+  exportData: () => string;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -168,6 +170,24 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     }));
   };
 
+  const exportData = () => {
+    const data = { products, orders, customers };
+    return btoa(JSON.stringify(data));
+  };
+
+  const importData = (encodedData: string) => {
+    try {
+      const decoded = JSON.parse(atob(encodedData));
+      if (decoded.products) setProducts(decoded.products);
+      if (decoded.orders) setOrders(decoded.orders);
+      if (decoded.customers) setCustomers(decoded.customers);
+      return true;
+    } catch (e) {
+      console.error("Failed to import data", e);
+      return false;
+    }
+  };
+
   return (
     <AppContext.Provider value={{
       currentPage,
@@ -188,7 +208,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       addProduct,
       updateProduct,
       deleteProduct,
-      placeOrder
+      placeOrder,
+      exportData,
+      importData
     }}>
       {children}
     </AppContext.Provider>
