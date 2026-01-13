@@ -11,7 +11,7 @@ import Checkout from './pages/Checkout';
 import Admin from './pages/Admin';
 import ProductCard from './components/ProductCard';
 import GlobalSearch from './components/GlobalSearch';
-import { Instagram, Facebook, Twitter, Youtube, Mail, Phone, MapPin, Home as HomeIcon, Search, ShoppingBag, LayoutGrid, Heart } from 'lucide-react';
+import { Instagram, Facebook, Twitter, Youtube, Mail, Phone, MapPin, Home as HomeIcon, Search, ShoppingBag, LayoutGrid, Heart, User } from 'lucide-react';
 
 const MobileNav: React.FC = () => {
   const { navigateTo, currentPage, cart } = useApp();
@@ -134,12 +134,13 @@ const Footer: React.FC = () => {
               <MapPin className="w-4 h-4 text-blue-400 mt-1 flex-shrink-0" />
               <span>Akurdi Sector 25, Pune 411044</span>
             </li>
-            <li className="pt-4 flex md:hidden">
+            <li className="pt-6">
                <button 
                  onClick={() => navigateTo(Page.Admin)}
-                 className="text-[10px] text-gray-700 font-bold uppercase tracking-widest hover:text-white transition-colors"
+                 className="flex items-center space-x-2 bg-gray-800 hover:bg-blue-600 px-4 py-2 rounded-xl text-[10px] text-white font-bold uppercase tracking-widest transition-all shadow-lg"
                >
-                 Owner Login
+                 <User className="w-3 h-3" />
+                 <span>Owner Login</span>
                </button>
             </li>
           </ul>
