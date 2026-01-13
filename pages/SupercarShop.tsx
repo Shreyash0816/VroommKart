@@ -23,42 +23,36 @@ const SupercarShop: React.FC = () => {
   }, [cars, filterBrand, searchQuery]);
 
   return (
-    <div className="min-h-screen bg-gray-950 pt-10 pb-20">
+    <div className="min-h-screen bg-gray-950 pt-6 md:pt-10 pb-20 w-full overflow-x-hidden">
       {/* Header */}
-      <header className="max-w-7xl mx-auto px-4 mb-12">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div>
-            <nav className="flex items-center space-x-2 text-blue-400 text-xs font-bold uppercase tracking-widest mb-4">
+      <header className="max-w-7xl mx-auto px-4 mb-8 md:mb-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
+          <div className="w-full">
+            <nav className="flex items-center space-x-2 text-blue-400 text-[10px] font-bold uppercase tracking-widest mb-3">
               <span>Home</span>
               <span>/</span>
               <span className="text-white">Supercars Garage</span>
             </nav>
-            <div className="flex items-center space-x-4 mb-4">
-               <h1 className="text-5xl md:text-7xl font-montserrat font-black text-white tracking-tighter uppercase">
+            <div className="flex flex-col mb-2">
+               <h1 className="text-3xl md:text-7xl font-montserrat font-black text-white tracking-tighter uppercase leading-tight">
                 THE <span className="text-blue-500">DIECAST</span> VAULT
               </h1>
-              <div className="hidden lg:flex items-center space-x-2 bg-blue-600/10 border border-blue-500/30 px-4 py-2 rounded-full animate-pulse">
-                <Sparkles className="w-4 h-4 text-blue-400" />
-                <span className="text-[10px] font-black uppercase tracking-widest text-blue-400">Mini GT Drop Live</span>
-              </div>
             </div>
-            <p className="text-gray-400 mt-6 max-w-xl text-lg">
-              India's premium selection of 1:64 and 1:24 scales. Featuring the complete Mini GT collection, Kaido House, and Inno64.
+            <p className="text-gray-400 mt-2 max-w-xl text-sm md:text-lg">
+              India's premium selection of 1:64 and 1:24 scales. Featuring Mini GT, Kaido House, and Inno64.
             </p>
           </div>
-          <div className="flex items-center space-x-4">
+          <div className="hidden md:flex items-center space-x-4">
             <div className="bg-gray-900 p-2 rounded-xl flex items-center space-x-2 border border-gray-800 shadow-xl">
                <button 
                 onClick={() => setViewMode('grid')}
                 className={`p-2 rounded-lg transition-all ${viewMode === 'grid' ? 'bg-blue-600 text-white' : 'text-gray-500 hover:text-gray-300'}`}
-                title="Grid View"
                >
                 <Grid className="w-5 h-5" />
                </button>
                <button 
                 onClick={() => setViewMode('list')}
                 className={`p-2 rounded-lg transition-all ${viewMode === 'list' ? 'bg-blue-600 text-white' : 'text-gray-500 hover:text-gray-300'}`}
-                title="List View"
                >
                 <List className="w-5 h-5" />
                </button>
@@ -67,95 +61,95 @@ const SupercarShop: React.FC = () => {
         </div>
       </header>
 
-      {/* Brand Sub-Categories Bar */}
-      <section className="max-w-7xl mx-auto px-4 mb-12">
-        <div className="flex items-center space-x-2 overflow-x-auto pb-4 custom-scrollbar no-scrollbar">
-          <button 
-            onClick={() => setFilterBrand('All')}
-            className={`px-8 py-4 rounded-2xl font-black uppercase text-xs tracking-widest transition-all flex-shrink-0 border-2 ${
-              filterBrand === 'All' 
-              ? 'bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-500/20' 
-              : 'bg-gray-900 border-gray-800 text-gray-400 hover:border-gray-700'
-            }`}
-          >
-            All Brands
-          </button>
-          {SUPERCAR_BRANDS.map(brand => (
+      {/* Brand Sub-Categories Bar - Optimized for Mobile Scroller */}
+      <section className="max-w-7xl mx-auto px-4 mb-8">
+        <div className="w-full relative overflow-hidden">
+          <div className="flex items-center space-x-2 overflow-x-auto pb-4 no-scrollbar -mx-4 px-4">
             <button 
-              key={brand}
-              onClick={() => setFilterBrand(brand)}
-              className={`px-8 py-4 rounded-2xl font-black uppercase text-xs tracking-widest transition-all flex-shrink-0 border-2 ${
-                filterBrand === brand 
+              onClick={() => setFilterBrand('All')}
+              className={`px-6 py-3 rounded-xl font-black uppercase text-[10px] tracking-widest transition-all flex-shrink-0 border-2 ${
+                filterBrand === 'All' 
                 ? 'bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-500/20' 
                 : 'bg-gray-900 border-gray-800 text-gray-400 hover:border-gray-700'
               }`}
             >
-              {brand}
+              All Brands
             </button>
-          ))}
+            {SUPERCAR_BRANDS.map(brand => (
+              <button 
+                key={brand}
+                onClick={() => setFilterBrand(brand)}
+                className={`px-6 py-3 rounded-xl font-black uppercase text-[10px] tracking-widest transition-all flex-shrink-0 border-2 ${
+                  filterBrand === brand 
+                  ? 'bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-500/20' 
+                  : 'bg-gray-900 border-gray-800 text-gray-400 hover:border-gray-700'
+                }`}
+              >
+                {brand}
+              </button>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Toolbar */}
-      <section className="max-w-7xl mx-auto px-4 mb-12">
-        <div className="bg-gray-900/50 backdrop-blur-md border border-gray-800 rounded-[40px] p-8 flex flex-wrap items-center justify-between gap-8">
-          <div className="flex items-center space-x-8 flex-wrap gap-y-4">
-             <div className="flex items-center space-x-3">
-               <span className="text-gray-600 font-black text-[10px] uppercase tracking-widest">Filter:</span>
+      <section className="max-w-7xl mx-auto px-4 mb-8 md:mb-12">
+        <div className="bg-gray-900/50 backdrop-blur-md border border-gray-800 rounded-3xl md:rounded-[40px] p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex items-center space-x-4 w-full md:w-auto overflow-x-auto no-scrollbar pb-1 md:pb-0">
+             <div className="flex items-center space-x-2 flex-shrink-0">
+               <span className="text-gray-600 font-black text-[9px] uppercase tracking-widest">Filter:</span>
                <div className="relative">
                  <select 
                     value={filterBrand}
                     onChange={(e) => setFilterBrand(e.target.value)}
-                    className="appearance-none bg-black text-white border border-gray-800 rounded-2xl px-6 py-3 pr-12 focus:outline-none focus:ring-2 focus:ring-blue-500 font-bold text-sm"
+                    className="appearance-none bg-black text-white border border-gray-800 rounded-xl px-4 py-2 pr-10 focus:outline-none focus:ring-1 focus:ring-blue-500 font-bold text-[11px]"
                   >
-                   <option value="All">Select Brand</option>
+                   <option value="All">Brands</option>
                    {SUPERCAR_BRANDS.map(b => <option key={b} value={b}>{b}</option>)}
                  </select>
-                 <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-600 pointer-events-none" />
+                 <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-600 pointer-events-none" />
                </div>
              </div>
              
-             <div className="flex items-center space-x-4">
-                <span className="text-gray-600 font-black text-[10px] uppercase tracking-widest">Status:</span>
-                <div className="flex space-x-2">
-                   <div className="px-4 py-2 bg-blue-500/10 text-blue-400 rounded-full text-[10px] font-black uppercase border border-blue-500/20">Mint Box</div>
-                   <div className="px-4 py-2 bg-green-500/10 text-green-400 rounded-full text-[10px] font-black uppercase border border-green-500/20">In Stock</div>
+             <div className="flex items-center space-x-2 flex-shrink-0">
+                <div className="flex space-x-1.5">
+                   <div className="px-3 py-1 bg-blue-500/10 text-blue-400 rounded-full text-[8px] font-black uppercase border border-blue-500/20">Mint Box</div>
+                   <div className="px-3 py-1 bg-green-500/10 text-green-400 rounded-full text-[8px] font-black uppercase border border-green-500/20">In Stock</div>
                 </div>
              </div>
           </div>
           
-          <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-600 w-5 h-5" />
+          <div className="relative w-full md:max-w-md">
+            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-600 w-4 h-4" />
             <input 
               type="text" 
-              placeholder="Search by model name (e.g. Skyline)..."
+              placeholder="Search model (e.g. R34)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-black border border-gray-800 rounded-full py-5 pl-14 pr-8 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all font-medium placeholder:text-gray-700"
+              className="w-full bg-black border border-gray-800 rounded-full py-4 pl-12 pr-6 text-white text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all font-medium placeholder:text-gray-700"
             />
           </div>
         </div>
       </section>
 
-      {/* Grid / List Display */}
+      {/* Grid Display - Fixed for Mobile */}
       <main className="max-w-7xl mx-auto px-4">
         {filteredCars.length > 0 ? (
           <div className={viewMode === 'grid' 
-            ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8" 
-            : "flex flex-col gap-6"
+            ? "grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-8" 
+            : "flex flex-col gap-4"
           }>
             {filteredCars.map(car => (
               <ProductCard key={car.id} product={car} viewMode={viewMode} />
             ))}
           </div>
         ) : (
-          <div className="text-center py-40 border-2 border-dashed border-gray-800 rounded-[60px]">
-            <div className="text-8xl mb-6 opacity-10">🏎️</div>
-            <h3 className="text-3xl font-black text-white mb-2 uppercase tracking-tighter">Garage Empty</h3>
-            <p className="text-gray-500 text-lg">No models found in the "{filterBrand}" sub-category.</p>
+          <div className="text-center py-20 border-2 border-dashed border-gray-800 rounded-3xl">
+            <h3 className="text-xl font-black text-white mb-1 uppercase tracking-tighter">Garage Empty</h3>
+            <p className="text-gray-500 text-sm px-4">No models found for these filters.</p>
             <button 
               onClick={() => { setFilterBrand('All'); setSearchQuery(''); }}
-              className="mt-8 text-blue-500 font-black uppercase tracking-widest hover:underline"
+              className="mt-4 text-blue-500 font-black uppercase tracking-widest text-[10px] hover:underline"
             >
               Reset Filters
             </button>
@@ -163,36 +157,24 @@ const SupercarShop: React.FC = () => {
         )}
       </main>
 
-      {/* Bottom Info */}
-      <section className="max-w-7xl mx-auto px-4 mt-20 pt-20 border-t border-gray-900">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-          <div className="flex space-x-4">
-             <div className="w-12 h-12 bg-blue-600/10 rounded-2xl flex items-center justify-center flex-shrink-0">
-                <CheckCircle className="text-blue-500 w-6 h-6" />
-             </div>
-             <div>
-                <h4 className="text-white font-black uppercase text-sm mb-2">Authenticated</h4>
-                <p className="text-gray-500 text-xs">Direct partner with Mini GT & Majorette. Guaranteed original packaging.</p>
-             </div>
-          </div>
-          <div className="flex space-x-4">
-             <div className="w-12 h-12 bg-purple-600/10 rounded-2xl flex items-center justify-center flex-shrink-0">
-                <Filter className="text-purple-500 w-6 h-6" />
-             </div>
-             <div>
-                <h4 className="text-white font-black uppercase text-sm mb-2">Hard to Find</h4>
-                <p className="text-gray-500 text-xs">Access to Chase models and Limited Run items you won't find in stores.</p>
-             </div>
-          </div>
-          <div className="flex space-x-4">
-             <div className="w-12 h-12 bg-yellow-600/10 rounded-2xl flex items-center justify-center flex-shrink-0">
-                <Trophy className="text-yellow-500 w-6 h-6" />
-             </div>
-             <div>
-                <h4 className="text-white font-black uppercase text-sm mb-2">Collector First</h4>
-                <p className="text-gray-500 text-xs">Bubble wrapped like it's the real thing. No bent cards, ever.</p>
-             </div>
-          </div>
+      {/* Bottom Features */}
+      <section className="max-w-7xl mx-auto px-4 mt-16 pt-10 border-t border-gray-900">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {[
+            { icon: <CheckCircle />, title: 'Authenticated', desc: 'Direct partner with official brands.' },
+            { icon: <Filter />, title: 'Rare Selection', desc: 'Chase models & Limited Run items.' },
+            { icon: <Trophy />, title: 'Collector Care', desc: 'Mint packaging, bubble wrapped.' }
+          ].map((feat, idx) => (
+            <div key={idx} className="flex items-start space-x-4">
+               <div className="w-10 h-10 bg-blue-600/10 rounded-xl flex items-center justify-center flex-shrink-0 text-blue-500">
+                  {feat.icon}
+               </div>
+               <div>
+                  <h4 className="text-white font-black uppercase text-xs mb-1">{feat.title}</h4>
+                  <p className="text-gray-500 text-[10px] leading-relaxed">{feat.desc}</p>
+               </div>
+            </div>
+          ))}
         </div>
       </section>
     </div>
