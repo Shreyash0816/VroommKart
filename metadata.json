@@ -1,0 +1,8 @@
+{
+  "name": "Vroommkart - Where Fun Meets Speed!",
+  "description": "India's #1 hotspot for toys, baby care, and exclusive supercar diecast collections. A playful yet premium e-commerce experience.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
