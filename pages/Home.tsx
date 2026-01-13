@@ -27,8 +27,9 @@ const Home: React.FC = () => {
   const { navigateTo, products } = useApp();
 
   // Dynamically derive categories from the actual product data
+  // Explicitly typing uniqueNames as string[] to prevent 'unknown' type inference errors in the map function
   const dynamicCategories = useMemo(() => {
-    const uniqueNames = Array.from(new Set(products.map(p => p.category)));
+    const uniqueNames: string[] = Array.from(new Set(products.map(p => p.category)));
     return uniqueNames.map(name => ({
       id: name.toLowerCase().replace(/\s+/g, '-'),
       name: name,

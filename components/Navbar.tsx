@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { ShoppingCart, Heart, Search, Menu, X, Car, Shield } from 'lucide-react';
+import { ShoppingCart, Heart, Search, Menu, X, Car } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { Page } from '../types';
 
@@ -37,10 +37,6 @@ const Navbar: React.FC = () => {
             <button onClick={() => navigateTo(Page.Anime)} className={`font-medium transition-colors ${currentPage === Page.Anime ? 'text-blue-500' : 'hover:text-blue-500'}`}>Anime</button>
             <button onClick={() => navigateTo(Page.Supercars)} className={`font-medium transition-colors ${currentPage === Page.Supercars ? 'text-blue-500' : 'hover:text-blue-500'}`}>Supercars</button>
             <button onClick={() => navigateTo(Page.Toys)} className={`font-medium transition-colors ${currentPage === Page.Toys ? 'text-blue-500' : 'hover:text-blue-500'}`}>Toys</button>
-            <button onClick={() => navigateTo(Page.Admin)} className="flex items-center space-x-1 text-gray-400 hover:text-blue-500 font-medium transition-colors">
-              <Shield className="w-4 h-4" />
-              <span>Admin</span>
-            </button>
           </div>
 
           {/* Actions */}
@@ -75,10 +71,7 @@ const Navbar: React.FC = () => {
           <button onClick={() => { navigateTo(Page.Home); setIsMenuOpen(false); }} className="block w-full text-left py-2 font-semibold">Home</button>
           <button onClick={() => { navigateTo(Page.Anime); setIsMenuOpen(false); }} className="block w-full text-left py-2 font-semibold">Anime World</button>
           <button onClick={() => { navigateTo(Page.Supercars); setIsMenuOpen(false); }} className="block w-full text-left py-2 font-semibold">Supercars Collection</button>
-          <button onClick={() => { navigateTo(Page.Admin); setIsMenuOpen(false); }} className="flex items-center space-x-2 w-full text-left py-2 font-semibold text-yellow-600">
-            <Shield className="w-4 h-4" />
-            <span>Admin Dashboard</span>
-          </button>
+          <button onClick={() => { navigateTo(Page.Toys); setIsMenuOpen(false); }} className="block w-full text-left py-2 font-semibold">Toys</button>
         </div>
       )}
     </nav>

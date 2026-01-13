@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { 
   LayoutDashboard, Package, ShoppingBag, Users, Settings, 
-  Plus, Search, Edit2, Trash2, X, TrendingUp, DollarSign, Box, Home, ChevronRight, AlertCircle, Clock, Eye, User, Phone, MapPin, CreditCard, Hash
+  Plus, Search, Edit2, Trash2, X, TrendingUp, DollarSign, Box, Home, ChevronRight, AlertCircle, Clock, Eye, User, Phone, MapPin, CreditCard, Lock, Shield
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { Product, Page, Order, Customer } from '../types';
@@ -12,11 +12,70 @@ type AdminTab = 'dashboard' | 'inventory' | 'orders' | 'customers';
 
 const Admin: React.FC = () => {
   const { products, addProduct, updateProduct, deleteProduct, navigateTo, orders, customers } = useApp();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [accessCode, setAccessCode] = useState('');
+  const [error, setError] = useState(false);
+  
   const [currentTab, setCurrentTab] = useState<AdminTab>('dashboard');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
+
+  // Handle Login
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (accessCode === '2025') { // Set your secret code here
+      setIsAuthenticated(true);
+      setError(false);
+    } else {
+      setError(true);
+      setTimeout(() => setError(false), 2000);
+    }
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gray-950 flex flex-col items-center justify-center p-6">
+        <div className="w-full max-w-md bg-gray-900 border border-gray-800 rounded-[40px] p-10 shadow-2xl animate-in zoom-in-95 duration-500">
+          <div className="text-center mb-10">
+            <div className="w-20 h-20 bg-blue-600/10 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Lock className="w-10 h-10 text-blue-500" />
+            </div>
+            <h1 className="text-3xl font-montserrat font-black text-white uppercase tracking-tighter">Owner Access</h1>
+            <p className="text-gray-500 mt-2 font-medium">Enter secret code to manage Vroommkart.</p>
+          </div>
+          
+          <form onSubmit={handleLogin} className="space-y-6">
+            <div>
+              <input 
+                type="password" 
+                value={accessCode}
+                onChange={(e) => setAccessCode(e.target.value)}
+                placeholder="Secret Access Code"
+                className={`w-full bg-black border ${error ? 'border-red-500' : 'border-gray-800'} rounded-2xl py-5 px-6 text-white text-center text-2xl tracking-[0.5em] focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all font-black placeholder:text-gray-700 placeholder:tracking-normal placeholder:text-sm`}
+                autoFocus
+              />
+              {error && <p className="text-red-500 text-xs font-bold text-center mt-3 animate-pulse">ACCESS DENIED. TRY AGAIN.</p>}
+            </div>
+            <button 
+              type="submit"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-5 rounded-2xl font-black uppercase tracking-widest shadow-xl transition-all active:scale-95"
+            >
+              Unlock Dashboard
+            </button>
+          </form>
+
+          <button 
+            onClick={() => navigateTo(Page.Home)}
+            className="w-full mt-10 text-gray-600 hover:text-white transition-colors font-bold text-sm uppercase tracking-widest"
+          >
+            Return to Store
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   // Stats
   const totalValue = products.reduce((acc, p) => acc + (p.price * p.stock), 0);
@@ -34,7 +93,6 @@ const Admin: React.FC = () => {
     const formData = new FormData(e.currentTarget);
     const imagesRaw = formData.get('images') as string;
     
-    // Ensure multiline or comma separated URLs are handled
     const imagesArray = imagesRaw
       .split(/[\n,]/)
       .map(url => url.trim())
@@ -72,7 +130,7 @@ const Admin: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row">
+    <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row animate-in fade-in duration-700">
       {/* Sidebar */}
       <aside className="w-full md:w-64 bg-gray-900 text-white p-6 md:sticky md:top-0 md:h-screen flex flex-col z-20">
         <div className="flex items-center space-x-3 mb-10">
@@ -331,7 +389,7 @@ const Admin: React.FC = () => {
         )}
       </main>
 
-      {/* Order Details Modal - SHOW ALL INFO */}
+      {/* Order Details Modal */}
       {selectedOrder && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setSelectedOrder(null)} />
@@ -345,7 +403,6 @@ const Admin: React.FC = () => {
              </div>
              
              <div className="p-8 max-h-[80vh] overflow-y-auto custom-scrollbar">
-                {/* Information Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
                    <div className="p-6 bg-blue-50 rounded-3xl">
                       <p className="text-[10px] font-black text-blue-400 uppercase mb-3 flex items-center"><User className="w-3 h-3 mr-1" /> Customer</p>
@@ -424,18 +481,7 @@ const Admin: React.FC = () => {
                 <input required list="brand-suggestions" name="brand" defaultValue={editingProduct?.brand} className="w-full p-4 bg-gray-50 rounded-xl border mt-2 outline-none focus:ring-2 focus:ring-blue-500" />
                 <datalist id="brand-suggestions">
                   {SUPERCAR_BRANDS.map(b => <option key={b} value={b} />)}
-                  <option value="Matchbox" />
-                  <option value="Tomica" />
-                  <option value="Bandai Spirits" />
                 </datalist>
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {['Hot Wheels', 'Mini GT', 'Majorette', 'Inno64'].map(b => (
-                    <span key={b} className="text-[10px] bg-blue-50 text-blue-600 px-2 py-1 rounded cursor-pointer hover:bg-blue-100 font-bold" onClick={() => {
-                       const input = document.querySelector('input[name="brand"]') as HTMLInputElement;
-                       if (input) input.value = b;
-                    }}>{b}</span>
-                  ))}
-                </div>
               </div>
               <div>
                 <label className="text-xs font-black text-gray-500 uppercase">Price</label>
@@ -461,13 +507,12 @@ const Admin: React.FC = () => {
                 <input name="scale" defaultValue={editingProduct?.scale} placeholder="e.g. 1:64" className="w-full p-4 bg-gray-50 rounded-xl border mt-2 outline-none focus:ring-2 focus:ring-blue-500" />
               </div>
               <div className="col-span-2">
-                <label className="text-xs font-black text-gray-500 uppercase">Gallery Images (URLs - One per line or Comma separated)</label>
+                <label className="text-xs font-black text-gray-500 uppercase">Gallery Images (URLs)</label>
                 <textarea 
                   required 
                   name="images" 
                   defaultValue={editingProduct?.images.join('\n')} 
                   className="w-full p-4 bg-gray-50 rounded-xl border mt-2 outline-none focus:ring-2 focus:ring-blue-500 font-mono text-xs" 
-                  placeholder="https://image-url-1.jpg&#10;https://image-url-2.jpg"
                   rows={4}
                 />
               </div>

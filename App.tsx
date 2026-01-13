@@ -10,7 +10,7 @@ import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import Admin from './pages/Admin';
 import ProductCard from './components/ProductCard';
-import { Instagram, Facebook, Twitter, Youtube, Mail, Phone, MapPin, Shield } from 'lucide-react';
+import { Instagram, Facebook, Twitter, Youtube, Mail, Phone, MapPin } from 'lucide-react';
 
 const Footer: React.FC = () => {
   const { navigateTo } = useApp();
@@ -40,10 +40,7 @@ const Footer: React.FC = () => {
             <li><button onClick={() => navigateTo(Page.Home)} className="hover:text-white transition-colors">Home</button></li>
             <li><button onClick={() => navigateTo(Page.Anime)} className="hover:text-white transition-colors">Anime World</button></li>
             <li><button onClick={() => navigateTo(Page.Supercars)} className="hover:text-white transition-colors">Supercar Garage</button></li>
-            <li><button onClick={() => navigateTo(Page.Admin)} className="flex items-center space-x-2 text-yellow-400 hover:text-white transition-colors">
-              <Shield className="w-4 h-4" />
-              <span>Admin Dashboard</span>
-            </button></li>
+            <li><button onClick={() => navigateTo(Page.Toys)} className="hover:text-white transition-colors">Toy Shop</button></li>
           </ul>
         </div>
 
