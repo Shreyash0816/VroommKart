@@ -14,6 +14,38 @@ export interface Product {
   stock: number;
 }
 
+export interface HeroBanner {
+  id: string;
+  image: string;
+  title: string;
+  subtitle: string;
+  accentColor: string;
+  linkTo: Page;
+}
+
+export interface SiteCategory {
+  id: string;
+  name: string;
+  icon: string;
+  bg: string;
+  text: string;
+  shadow: string;
+}
+
+export interface SiteConfig {
+  primaryColor: string;
+  accentColor: string;
+  logoText: string;
+  logoAccentText: string;
+  heroBanners: HeroBanner[];
+  spotlightTitle: string;
+  spotlightDesc: string;
+  spotlightImage: string;
+  spotlightRarity: string;
+  tickerMessages: string[];
+  categories: SiteCategory[];
+}
+
 export type WishlistItem = Product;
 
 export interface CartItem extends Product {
@@ -53,5 +85,9 @@ export enum Page {
   Checkout = 'checkout',
   About = 'about',
   Contact = 'contact',
-  Admin = 'admin'
+  Admin = 'admin',
+  CollectorsGuide = 'collectors-guide',
+  PreOrderPolicy = 'preorder-policy',
+  ReturnsRefund = 'returns-refund',
+  PrivacyPolicy = 'privacy-policy'
 }
